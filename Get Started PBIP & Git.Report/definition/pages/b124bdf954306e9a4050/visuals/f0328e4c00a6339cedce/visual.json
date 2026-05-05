@@ -10,28 +10,10 @@
     "tabOrder": 3000
   },
   "visual": {
-    "visualType": "treemap",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
-        "Details": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Dimview Brands"
-                    }
-                  },
-                  "Property": "Class"
-                }
-              },
-              "queryRef": "Dimview Brands.Class",
-              "nativeQueryRef": "Class"
-            }
-          ]
-        },
-        "Group": {
+        "Category": {
           "projections": [
             {
               "field": {
@@ -50,7 +32,25 @@
             }
           ]
         },
-        "Values": {
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dimview Brands"
+                    }
+                  },
+                  "Property": "Class"
+                }
+              },
+              "queryRef": "Dimview Brands.Class",
+              "nativeQueryRef": "Class"
+            }
+          ]
+        },
+        "Y": {
           "projections": [
             {
               "field": {
