@@ -1,0 +1,29 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-DK
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["Dimview Brands","Dimview Customers","Dimview Invoice Document Type","Dimview Order Document Type","Dimview Order Status","Dimview Products","Dimview Regions","Factview Budget","Factview Forecast","Factview Invoices","Factview Orders","Dim Date"]
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
+
+ref table 'Dimview Brands'
+ref table 'Dimview Customers'
+ref table 'Dimview Invoice Document Type'
+ref table 'Dimview Order Document Type'
+ref table 'Dimview Order Status'
+ref table 'Dimview Products'
+ref table 'Dimview Regions'
+ref table 'Factview Budget'
+ref table 'Factview Forecast'
+ref table 'Factview Invoices'
+ref table 'Factview Orders'
+ref table 'Dim Date'
+
+ref cultureInfo en-US
+

@@ -1,0 +1,58 @@
+table 'Dimview Order Status'
+	lineageTag: ec08523b-b20f-43aa-8be8-ad34a8b4d9f5
+
+	column 'Order Status Code'
+		dataType: string
+		lineageTag: 270faa66-9ad7-4ff6-8ff0-8c78f5b71850
+		summarizeBy: none
+		sourceColumn: Order Status Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Status Text'
+		dataType: string
+		lineageTag: a6698cca-7e0d-46f4-9065-d47db8359ef2
+		summarizeBy: none
+		sourceColumn: Order Status Text
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Status Ordinal'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4b5102c2-c113-4900-a703-a59eb3aac029
+		summarizeBy: sum
+		sourceColumn: Order Status Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Status Group'
+		dataType: string
+		lineageTag: 1c51ad1a-2fd3-4692-80cb-1dd11ceb0fb8
+		summarizeBy: none
+		sourceColumn: Order Status Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Status Grouping Ordinal'
+		dataType: int64
+		formatString: 0
+		lineageTag: b190d74e-09b5-4c08-bbe9-50b06515e3bb
+		summarizeBy: sum
+		sourceColumn: Order Status Grouping Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dimview Order Status' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("te3-training-eu.database.windows.net", "SpacePartsCoDW"),
+				    #"Dimview_Order Status" = Source{[Schema="Dimview",Item="Order Status"]}[Data]
+				in
+				    #"Dimview_Order Status"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

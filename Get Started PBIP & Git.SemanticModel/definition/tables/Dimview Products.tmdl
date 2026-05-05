@@ -1,0 +1,158 @@
+table 'Dimview Products'
+	lineageTag: de4daf8c-c00e-456e-afbd-05e12b724b25
+
+	column 'Sub Brand Name'
+		dataType: string
+		lineageTag: 9b1c8518-513f-43eb-b171-69a1f5fd93d0
+		summarizeBy: none
+		sourceColumn: Sub Brand Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ship Class for Part'
+		dataType: string
+		lineageTag: b4a66cb2-50d1-43a7-aeec-7baa6a8743c3
+		summarizeBy: none
+		sourceColumn: Ship Class for Part
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Name'
+		dataType: string
+		lineageTag: 6df3076c-2882-4410-a6f6-4e5bf484cbef
+		summarizeBy: none
+		sourceColumn: Product Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Business Line Leader'
+		dataType: string
+		lineageTag: 6ccdbf05-fe36-4a5e-9613-8958c8b5909c
+		summarizeBy: none
+		sourceColumn: Product Business Line Leader
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Part Fit Grading'
+		dataType: string
+		lineageTag: 59d9d4d9-95b6-4cdd-9e71-0bb4658aa1b8
+		summarizeBy: none
+		sourceColumn: Part Fit Grading
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Key'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c169136-749e-4b0a-b438-261e0889b7f3
+		summarizeBy: none
+		sourceColumn: Product Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column Subtype
+		dataType: string
+		lineageTag: 964eb38b-fc77-4eaa-84fe-f73ce70f4af9
+		summarizeBy: none
+		sourceColumn: Subtype
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 80b36218-cdb5-49b4-9951-97ae2b5cfa5e
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Weight (Tonnes)'
+		dataType: double
+		lineageTag: 33adcb3b-ddcd-4149-8862-84d95e18b77e
+		summarizeBy: sum
+		sourceColumn: Weight (Tonnes)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Maximum Temperature (K)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 79062b2f-4885-40d0-8851-1715c174e05a
+		summarizeBy: sum
+		sourceColumn: Maximum Temperature (K)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Velocity Tolerance (Meters / Second)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 90c2095b-7050-4cc9-8a1e-a03ac485eb19
+		summarizeBy: sum
+		sourceColumn: Velocity Tolerance (Meters / Second)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tolerance (g)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 24be7481-296a-4657-877b-4d042f199320
+		summarizeBy: sum
+		sourceColumn: Tolerance (g)
+
+		annotation SummarizationSetBy = Automatic
+
+	column MK
+		dataType: string
+		lineageTag: 803e2666-d03a-47ee-b397-5370f1dd59a9
+		summarizeBy: none
+		sourceColumn: MK
+
+		annotation SummarizationSetBy = Automatic
+
+	column Color
+		dataType: string
+		lineageTag: 8c0de2a8-aa90-4da1-a589-cb427cfefbe6
+		summarizeBy: none
+		sourceColumn: Color
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Production Series'
+		dataType: string
+		lineageTag: 213569c7-f6f6-48e8-b99c-c565dc4b93ae
+		summarizeBy: none
+		sourceColumn: Production Series
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nameplate
+		dataType: string
+		lineageTag: bc0d1728-2024-41a0-ab08-9994997c228e
+		summarizeBy: none
+		sourceColumn: Nameplate
+
+		annotation SummarizationSetBy = Automatic
+
+	column Material
+		dataType: string
+		lineageTag: eddfccf5-39ce-405a-9f36-17b92885b610
+		summarizeBy: none
+		sourceColumn: Material
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dimview Products' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("te3-training-eu.database.windows.net", "SpacePartsCoDW"),
+				    Dimview_Products = Source{[Schema="Dimview",Item="Products"]}[Data]
+				in
+				    Dimview_Products
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

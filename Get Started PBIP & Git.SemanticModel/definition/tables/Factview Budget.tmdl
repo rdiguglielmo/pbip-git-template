@@ -1,0 +1,57 @@
+table 'Factview Budget'
+	lineageTag: 1569efab-8632-4909-844d-208960f49a8d
+
+	column Month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f9857402-4d12-4c7f-93f4-f042c2779e75
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Total Budget'
+		dataType: double
+		lineageTag: a94f5eda-b164-49d0-b511-e19725102551
+		summarizeBy: sum
+		sourceColumn: Total Budget
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Customer Key'
+		dataType: string
+		lineageTag: bd07204b-1a22-47ad-9d04-3981d7aa3470
+		summarizeBy: none
+		sourceColumn: Customer Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Key'
+		dataType: int64
+		formatString: 0
+		lineageTag: 172f15e4-aa2f-4d43-9d4e-6abef3e8bb48
+		summarizeBy: none
+		sourceColumn: Product Key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Factview Budget' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("te3-training-eu.database.windows.net", "SpacePartsCoDW"),
+				    Factview_Budget = Source{[Schema="Factview",Item="Budget"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(Factview_Budget,{"Month", "Total Budget", "Customer Key", "Product Key"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Other Columns", each ([Month] <> #date(2020, 1, 1) and [Month] <> #date(2020, 2, 1) and [Month] <> #date(2020, 3, 1) and [Month] <> #date(2020, 4, 1) and [Month] <> #date(2020, 5, 1) and [Month] <> #date(2020, 6, 1) and [Month] <> #date(2020, 7, 1) and [Month] <> #date(2020, 8, 1) and [Month] <> #date(2020, 9, 1) and [Month] <> #date(2020, 10, 1) and [Month] <> #date(2020, 11, 1) and [Month] <> #date(2020, 12, 1))),
+				    #"Kept First Rows" = Table.FirstN(#"Filtered Rows",10000)
+				in
+				    #"Kept First Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

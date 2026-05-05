@@ -1,0 +1,64 @@
+table 'Dimview Brands'
+	lineageTag: d929b40f-9907-4ee8-9276-60b985ddadad
+
+	column Flagship
+		dataType: string
+		lineageTag: a479e01b-065e-44f4-a1c9-b35b619c1ec8
+		summarizeBy: none
+		sourceColumn: Flagship
+
+		annotation SummarizationSetBy = Automatic
+
+	column Class
+		dataType: string
+		lineageTag: 7ffdad39-3e33-401e-a5bc-d6f0310b8fd8
+		summarizeBy: none
+		sourceColumn: Class
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 0568ac57-6feb-471f-8ea4-0fe080d2fd95
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: 498f9a27-ba94-4fd8-9ad8-b1f98ee54c76
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sub Brand'
+		dataType: string
+		lineageTag: 7333547a-c6e6-4959-8ee4-74522508a0a6
+		summarizeBy: none
+		sourceColumn: Sub Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Brand VP'
+		dataType: string
+		lineageTag: ee710209-fc4c-4241-9a20-c461e568089a
+		summarizeBy: none
+		sourceColumn: Product Brand VP
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dimview Brands' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("te3-training-eu.database.windows.net", "SpacePartsCoDW"),
+				    Dimview_Brands = Source{[Schema="Dimview",Item="Brands"]}[Data]
+				in
+				    Dimview_Brands
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,78 @@
+table 'Dim Date'
+	lineageTag: 5bdd8924-d17f-4216-b101-7740a190b005
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 842b40e9-2536-4c01-9fff-c0d89103a5f4
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column MonthOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3be28303-1d31-492b-9a13-0f5ddedd49b3
+		summarizeBy: sum
+		sourceColumn: MonthOrder
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: 6b7dc076-900a-4cb3-8567-0f2b42176fe4
+		summarizeBy: none
+		sourceColumn: Month
+		sortByColumn: MonthOrder
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 13f1096d-0474-4c5f-9eed-875edfabb1a0
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = User
+
+	column Quarter
+		dataType: string
+		lineageTag: 08faa514-971d-43bf-8584-62fafb553da3
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim Date' = m
+		mode: import
+		source =
+				let
+				    StartDate = #date(Date.Year(DateTime.Date(DateTime.FixedLocalNow()))-5, 1, 1),
+				    EndDate = #date(Date.Year(DateTime.Date(DateTime.FixedLocalNow())), 12, 31),
+				    ListDates = List.Dates(StartDate, Number.From(EndDate - StartDate)+1, #duration(1,0,0,0)),
+				    #"Converted to Table" = Table.FromList(ListDates, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Renamed Columns as Date" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Date"}}),
+				    #"Changed Type to Date" = Table.TransformColumnTypes(#"Renamed Columns as Date",{{"Date", type date}}),
+				    #"==Add Calendar Columns==" = #"Changed Type to Date",
+				    #"Added MonthOrder" = Table.AddColumn(#"==Add Calendar Columns==", "MonthOrder", each Date.Month([Date]), Int64.Type),
+				    #"Added Month" = Table.AddColumn(#"Added MonthOrder", "Month", each Text.Start(Date.MonthName([Date]),3), type text),
+				    #"Added Year" = Table.AddColumn(#"Added Month", "Year", each Date.Year([Date]), Int64.Type),
+				    #"Inserted Quarter Number" = Table.AddColumn(#"Added Year", "Quarter", each Date.QuarterOfYear([Date]), Int64.Type),
+				    #"Inserted Quarter Name" = Table.AddColumn(#"Inserted Quarter Number", "Quarter Name", each "Q"),
+				    #"Create Quarter Name & Number" = Table.CombineColumns(Table.TransformColumnTypes(#"Inserted Quarter Name", {{"Quarter", type text}}, "en-US"),{"Quarter Name", "Quarter"},Combiner.CombineTextByDelimiter("", QuoteStyle.None),"Quarter")
+				in
+				    #"Create Quarter Name & Number"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

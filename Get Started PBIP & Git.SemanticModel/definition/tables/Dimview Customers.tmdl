@@ -1,0 +1,88 @@
+table 'Dimview Customers'
+	lineageTag: 726a20c4-ae07-450e-8d9f-e2b51dfa4e91
+
+	column 'Customer Key'
+		dataType: string
+		lineageTag: a7b95ccc-03a8-485c-b622-cc31132abf47
+		summarizeBy: none
+		sourceColumn: Customer Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Sold-To Name'
+		dataType: string
+		lineageTag: 15b019a9-06cd-48e1-90fb-bb285682b223
+		summarizeBy: none
+		sourceColumn: Customer Sold-To Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Name'
+		dataType: string
+		lineageTag: 37b331d2-a5ad-436c-962b-a37e2f3c6704
+		summarizeBy: none
+		sourceColumn: Account Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Key Account Name'
+		dataType: string
+		lineageTag: ddad4bfb-bdc2-430a-8da5-8cdc250e450c
+		summarizeBy: none
+		sourceColumn: Key Account Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Transaction Type'
+		dataType: string
+		lineageTag: 31ac9eb6-b4c8-4556-b44c-5c0d3f81d5ab
+		summarizeBy: none
+		sourceColumn: Transaction Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Type'
+		dataType: string
+		lineageTag: bd24bc27-8358-4fe7-811d-20160593b12e
+		summarizeBy: none
+		sourceColumn: Account Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Key Account Manager'
+		dataType: string
+		lineageTag: a38ab845-12f1-46fd-82f3-7fc1fb29424f
+		summarizeBy: none
+		sourceColumn: Key Account Manager
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Account Manager'
+		dataType: string
+		lineageTag: 0a632a02-ce74-4d11-93d8-771305a8351c
+		summarizeBy: none
+		sourceColumn: Account Manager
+
+		annotation SummarizationSetBy = Automatic
+
+	column Station
+		dataType: string
+		lineageTag: 6808197e-f454-4828-bdac-03144c787947
+		summarizeBy: none
+		sourceColumn: Station
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dimview Customers' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("te3-training-eu.database.windows.net", "SpacePartsCoDW"),
+				    Dimview_Customers = Source{[Schema="Dimview",Item="Customers"]}[Data]
+				in
+				    Dimview_Customers
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

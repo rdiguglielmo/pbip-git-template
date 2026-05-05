@@ -1,0 +1,106 @@
+table 'Dimview Regions'
+	lineageTag: 2da06d3c-907a-4e52-96bb-97275bc3091b
+
+	column All
+		dataType: string
+		lineageTag: 7c7cb14f-1cd9-4adc-b471-5f5555748524
+		summarizeBy: none
+		sourceColumn: All
+
+		annotation SummarizationSetBy = Automatic
+
+	column System
+		dataType: string
+		lineageTag: e7a625a7-6e61-40b1-ac86-5ecb23a0ea12
+		summarizeBy: none
+		sourceColumn: System
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Interplanetary Region'
+		dataType: string
+		lineageTag: d245b6b8-6dfd-407d-a132-e8ef6a3f8563
+		summarizeBy: none
+		sourceColumn: Interplanetary Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Territory
+		dataType: string
+		lineageTag: 5c772deb-8e28-49f2-a2a7-0818b2eab9ca
+		summarizeBy: none
+		sourceColumn: Territory
+
+		annotation SummarizationSetBy = Automatic
+
+	column Station
+		dataType: string
+		lineageTag: db85b92d-b362-4ab4-be65-2504d34d4880
+		summarizeBy: none
+		sourceColumn: Station
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Station Type'
+		dataType: string
+		lineageTag: 06760fa3-897c-445f-b102-389960ae7d30
+		summarizeBy: none
+		sourceColumn: Station Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tax Rate'
+		dataType: double
+		lineageTag: 0d3e01bd-e18f-4811-9610-15f926692a8e
+		summarizeBy: none
+		sourceColumn: Tax Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'System Sales Directors'
+		dataType: string
+		lineageTag: 8a8c63a6-9579-4878-b106-68485ad7cd5a
+		summarizeBy: none
+		sourceColumn: System Sales Directors
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Station Sales Managers'
+		dataType: string
+		lineageTag: 1575a783-c203-4eb2-b1a9-e43b8c22b36a
+		summarizeBy: none
+		sourceColumn: Station Sales Managers
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'System Regional Managers'
+		dataType: string
+		lineageTag: 75636c20-47d4-4f5d-bdc2-90bd60563005
+		summarizeBy: none
+		sourceColumn: System Regional Managers
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Territory Directors'
+		dataType: string
+		lineageTag: 9e560d2c-ca50-4136-94a1-39714d6d7eb5
+		summarizeBy: none
+		sourceColumn: Territory Directors
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dimview Regions' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("te3-training-eu.database.windows.net", "SpacePartsCoDW"),
+				    Dimview_Regions = Source{[Schema="Dimview",Item="Regions"]}[Data]
+				in
+				    Dimview_Regions
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

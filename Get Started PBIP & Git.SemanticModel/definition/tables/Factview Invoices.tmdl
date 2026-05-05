@@ -1,0 +1,190 @@
+table 'Factview Invoices'
+	lineageTag: dc73cbc1-a78b-4a64-ac33-53517db959dc
+
+	column 'Billing Document Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 75fd1445-f585-4b23-98f7-9459b984b77d
+		summarizeBy: sum
+		sourceColumn: Billing Document Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Billing Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c592e11a-1dce-4b60-b482-2e61e0619667
+		summarizeBy: none
+		sourceColumn: Billing Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Customer Key'
+		dataType: string
+		lineageTag: 00039a3b-74cb-41e2-8210-6125ee219e86
+		summarizeBy: none
+		sourceColumn: Customer Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Billing Document Line Item Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 881e0f8a-4906-450c-a58a-72f937e8f4a1
+		summarizeBy: sum
+		sourceColumn: Billing Document Line Item Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Key'
+		dataType: int64
+		formatString: 0
+		lineageTag: 653ef8d6-c4d7-4f10-83ec-da02332092ec
+		summarizeBy: none
+		sourceColumn: Product Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ship Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d064a355-75c2-43ef-ba6f-71840a8b6563
+		summarizeBy: none
+		sourceColumn: Ship Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'OTD Indicator'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ca4ea1c6-8272-4de5-b28b-4a9e74f13411
+		summarizeBy: none
+		sourceColumn: OTD Indicator
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Billing Document Type Code'
+		dataType: string
+		lineageTag: a47d953b-6075-45ee-b6fe-ec6c739638d9
+		summarizeBy: none
+		sourceColumn: Billing Document Type Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Local Currency'
+		dataType: string
+		lineageTag: d5f19428-e7a8-491c-ad5b-ebac0a4f8429
+		summarizeBy: none
+		sourceColumn: Local Currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Delivery Cost'
+		dataType: double
+		lineageTag: 40afd8e2-06dc-4d1d-ad0c-3cbc02c9020c
+		summarizeBy: sum
+		sourceColumn: Delivery Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Net Invoice COGS'
+		dataType: double
+		lineageTag: 8807e984-72a9-42f0-b9df-76d2194150da
+		summarizeBy: sum
+		sourceColumn: Net Invoice COGS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Late Delivery Penalties'
+		dataType: double
+		lineageTag: 5901c96c-125f-4e96-91dc-61e25454d4d9
+		summarizeBy: sum
+		sourceColumn: Late Delivery Penalties
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Overdue Payment Penalties'
+		dataType: double
+		lineageTag: 823cce59-4cfe-41fe-8655-b51b92ed06cf
+		summarizeBy: sum
+		sourceColumn: Overdue Payment Penalties
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Taxes & Commercial Fees'
+		dataType: double
+		lineageTag: 98ce42f3-3119-434a-9743-b33df8ec325d
+		summarizeBy: sum
+		sourceColumn: Taxes & Commercial Fees
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Freight
+		dataType: double
+		lineageTag: 356fa544-ec90-4f7d-bc8e-526ecc4dad3f
+		summarizeBy: sum
+		sourceColumn: Freight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Net Invoice Cost'
+		dataType: double
+		lineageTag: ae498304-8a45-494e-b022-e1f8920d5964
+		summarizeBy: sum
+		sourceColumn: Net Invoice Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Net Invoice Value'
+		dataType: double
+		lineageTag: 6e4be9f1-407f-4d84-9c00-a9210893be22
+		summarizeBy: sum
+		sourceColumn: Net Invoice Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Net Invoice Quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: 54f9346c-ab2e-4725-abfd-b6286f33cd4b
+		summarizeBy: sum
+		sourceColumn: Net Invoice Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Factview Invoices' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("te3-training-eu.database.windows.net", "SpacePartsCoDW"),
+				    Factview_Invoices = Source{[Schema="Factview",Item="Invoices"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(Factview_Invoices,{"Billing Document Number", "Billing Date", "Customer Key", "Billing Document Line Item Number", "Product Key", "Ship Date", "OTD Indicator", "Billing Document Type Code", "Local Currency", "Delivery Cost", "Net Invoice COGS", "Late Delivery Penalties", "Overdue Payment Penalties", "Taxes & Commercial Fees", "Freight", "Net Invoice Cost", "Net Invoice Value", "Net Invoice Quantity"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Other Columns", each [Billing Date] >= #date(2021, 1, 1) and [Billing Date] <= #date(2022, 2, 19)),
+				    #"Kept First Rows" = Table.FirstN(#"Filtered Rows",10000)
+				in
+				    #"Kept First Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

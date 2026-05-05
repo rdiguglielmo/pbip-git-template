@@ -1,0 +1,100 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "a4ff9f080068ab0c4503",
+  "position": {
+    "x": 328.68949232585595,
+    "y": 178.32349468713105,
+    "z": 2000,
+    "height": 488.12278630460446,
+    "width": 901.44037780401413,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim Date"
+                    }
+                  },
+                  "Property": "Year"
+                }
+              },
+              "queryRef": "Dim Date.Year",
+              "nativeQueryRef": "Year",
+              "active": true
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dimview Customers"
+                    }
+                  },
+                  "Property": "Account Manager"
+                }
+              },
+              "queryRef": "Dimview Customers.Account Manager",
+              "nativeQueryRef": "Account Manager",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Factview Invoices"
+                        }
+                      },
+                      "Property": "Net Invoice Value"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Factview Invoices.Net Invoice Value)",
+              "nativeQueryRef": "Sum of Net Invoice Value"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Factview Orders"
+                        }
+                      },
+                      "Property": "Net Order Value"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Factview Orders.Net Order Value)",
+              "nativeQueryRef": "Sum of Net Order Value"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,58 @@
+table 'Dimview Invoice Document Type'
+	lineageTag: aa644abf-7a9a-4976-b205-14c22eb8a57d
+
+	column 'Billing Document Type Code'
+		dataType: string
+		lineageTag: 494d9d13-85f4-43e6-b439-c747c80e59a6
+		summarizeBy: none
+		sourceColumn: Billing Document Type Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Text
+		dataType: string
+		lineageTag: ab950a9f-ba98-4f74-ab8f-9a22915cb800
+		summarizeBy: none
+		sourceColumn: Text
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Doc. Type Ordinal'
+		dataType: int64
+		formatString: 0
+		lineageTag: ff80ae1b-b8aa-4898-b354-fa06f1f5e548
+		summarizeBy: none
+		sourceColumn: Doc. Type Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group
+		dataType: string
+		lineageTag: c97a0f22-d79b-446c-93a3-b2e45a369ea9
+		summarizeBy: none
+		sourceColumn: Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Group Ordinal'
+		dataType: int64
+		formatString: 0
+		lineageTag: a1199ff5-6878-4cb3-820d-0423812b8bc0
+		summarizeBy: none
+		sourceColumn: Group Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dimview Invoice Document Type' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("te3-training-eu.database.windows.net", "SpacePartsCoDW"),
+				    #"Dimview_Invoice Document Type" = Source{[Schema="Dimview",Item="Invoice Document Type"]}[Data]
+				in
+				    #"Dimview_Invoice Document Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

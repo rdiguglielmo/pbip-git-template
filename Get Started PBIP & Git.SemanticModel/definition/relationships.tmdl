@@ -1,0 +1,56 @@
+relationship AutoDetected_f391442b-6f15-4861-a73f-ba469b40c575
+	fromColumn: 'Factview Budget'.'Customer Key'
+	toColumn: 'Dimview Customers'.'Customer Key'
+
+relationship AutoDetected_2654e7a0-8921-4cf8-ada9-0f608407af0e
+	fromColumn: 'Factview Invoices'.'Customer Key'
+	toColumn: 'Dimview Customers'.'Customer Key'
+
+relationship AutoDetected_6a0f0eaa-de56-41bc-bf97-5d3474537651
+	fromColumn: 'Factview Orders'.'Customer Key'
+	toColumn: 'Dimview Customers'.'Customer Key'
+
+relationship AutoDetected_19aad363-788f-4889-86d9-32527569a94d
+	fromColumn: 'Dimview Customers'.Station
+	toColumn: 'Dimview Regions'.Station
+
+relationship AutoDetected_0c4f9816-3f5c-4705-a98e-57a3e12b41aa
+	fromColumn: 'Factview Invoices'.'Billing Document Type Code'
+	toColumn: 'Dimview Invoice Document Type'.'Billing Document Type Code'
+
+relationship AutoDetected_51d0ee77-4b78-4345-902a-5ac3315256c9
+	fromColumn: 'Factview Orders'.'Sales Order Document Type Code'
+	toColumn: 'Dimview Order Document Type'.'Sales Order Document Type Code'
+
+relationship AutoDetected_b6d87d32-301b-4fc9-acae-4caca9d2a8e9
+	fromColumn: 'Factview Budget'.'Product Key'
+	toColumn: 'Dimview Products'.'Product Key'
+
+relationship AutoDetected_c7c2b276-f1bc-47ca-8396-82ae393825ad
+	fromColumn: 'Factview Invoices'.'Product Key'
+	toColumn: 'Dimview Products'.'Product Key'
+
+relationship AutoDetected_d7eb843e-4bbb-466f-bf98-2b702a840ba6
+	fromColumn: 'Factview Orders'.'Product Key'
+	toColumn: 'Dimview Products'.'Product Key'
+
+relationship AutoDetected_09198517-4701-4108-ad08-e0e0283f245d
+	fromColumn: 'Dimview Products'.'Sub Brand Name'
+	toColumn: 'Dimview Brands'.'Sub Brand'
+
+relationship 51f70718-3494-304c-c91b-15de67cb51a9
+	fromColumn: 'Factview Orders'.'Billing Date'
+	toColumn: 'Dim Date'.Date
+
+relationship 6cdd3b61-b1ee-12c7-a6d7-a95bc425e870
+	fromColumn: 'Factview Budget'.Month
+	toColumn: 'Dim Date'.Date
+
+relationship f74fb523-486d-816a-65db-d50e251bd5dd
+	fromColumn: 'Factview Forecast'.'Forecast Month'
+	toColumn: 'Dim Date'.Date
+
+relationship 56fcb131-eff1-6848-7147-de09a098b7b3
+	fromColumn: 'Factview Invoices'.'Billing Date'
+	toColumn: 'Dim Date'.Date
+

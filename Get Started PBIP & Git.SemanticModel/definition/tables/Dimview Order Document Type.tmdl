@@ -1,0 +1,58 @@
+table 'Dimview Order Document Type'
+	lineageTag: e89615b6-4868-49e1-b96e-be37d8beb6c9
+
+	column 'Sales Order Document Type Code'
+		dataType: string
+		lineageTag: a934b29c-0997-4d2a-8e39-f7222ca74368
+		summarizeBy: none
+		sourceColumn: Sales Order Document Type Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Text
+		dataType: string
+		lineageTag: 66d6ddbc-2944-470a-b273-1febcfcbff1e
+		summarizeBy: none
+		sourceColumn: Text
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Doc. Type Ordinal'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7135b383-2437-4e0b-bf75-3c55d322cfc1
+		summarizeBy: none
+		sourceColumn: Doc. Type Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group
+		dataType: string
+		lineageTag: d70b7e73-d7eb-4f3c-af19-2a157e2b636d
+		summarizeBy: none
+		sourceColumn: Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Group Ordinal'
+		dataType: int64
+		formatString: 0
+		lineageTag: dde12ccf-9c47-465e-a76c-f210bc82146f
+		summarizeBy: none
+		sourceColumn: Group Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dimview Order Document Type' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("te3-training-eu.database.windows.net", "SpacePartsCoDW"),
+				    #"Dimview_Order Document Type" = Source{[Schema="Dimview",Item="Order Document Type"]}[Data]
+				in
+				    #"Dimview_Order Document Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

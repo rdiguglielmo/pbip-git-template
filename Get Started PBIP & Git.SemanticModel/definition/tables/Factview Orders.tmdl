@@ -1,0 +1,152 @@
+table 'Factview Orders'
+	lineageTag: 98f9f741-d859-4676-8017-fac3410f55a6
+
+	column 'Sales Order Document Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 441af245-23e8-4909-b46d-6756df359b05
+		summarizeBy: sum
+		sourceColumn: Sales Order Document Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d5e949e7-c65a-42da-97fa-e3c40f40393a
+		summarizeBy: none
+		sourceColumn: Order Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Customer Key'
+		dataType: string
+		lineageTag: 92a6cf0b-3c11-4998-95ab-5a2d9b7d10d5
+		summarizeBy: none
+		sourceColumn: Customer Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Order Document Line Item Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4c8aa7b8-eabc-48f5-aa49-aeacd707c011
+		summarizeBy: sum
+		sourceColumn: Sales Order Document Line Item Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Key'
+		dataType: int64
+		formatString: 0
+		lineageTag: d70721b5-11fc-4889-bac4-c1f21cd79da9
+		summarizeBy: none
+		sourceColumn: Product Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Billing Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 41dbece4-5214-4dc9-acf8-a6098602342a
+		summarizeBy: none
+		sourceColumn: Billing Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Ship Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 70a4091a-b015-4f4c-b399-5ea4c2e2a22e
+		summarizeBy: none
+		sourceColumn: Ship Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Request Goods Receipt Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: fac44f5f-ef2f-4838-8242-bb877c59dc61
+		summarizeBy: none
+		sourceColumn: Request Goods Receipt Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Confirm Goods Receipt Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 43c0730c-f69c-4473-bb67-71ed2a8cc4c1
+		summarizeBy: none
+		sourceColumn: Confirm Goods Receipt Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Sales Order Document Type Code'
+		dataType: string
+		lineageTag: e1f16d2c-3b89-492c-8c72-60b35e342b73
+		summarizeBy: none
+		sourceColumn: Sales Order Document Type Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Order Document Line Item Status'
+		dataType: string
+		lineageTag: b1c8284f-da34-4217-8831-f8b68d916cca
+		summarizeBy: none
+		sourceColumn: Sales Order Document Line Item Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Local Currency'
+		dataType: string
+		lineageTag: 8d1af1bf-6822-4fdb-b734-541f43a69c2b
+		summarizeBy: none
+		sourceColumn: Local Currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Net Order Value'
+		dataType: double
+		lineageTag: 07a24811-5072-40d1-845f-a4d95dd5b676
+		summarizeBy: sum
+		sourceColumn: Net Order Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Net Order Quantity'
+		dataType: int64
+		formatString: 0
+		lineageTag: 49552462-45bb-4e75-9196-d1d8a2779188
+		summarizeBy: sum
+		sourceColumn: Net Order Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Factview Orders' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("te3-training-eu.database.windows.net", "SpacePartsCoDW"),
+				    Factview_Orders = Source{[Schema="Factview",Item="Orders"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(Factview_Orders,{"Sales Order Document Number", "Order Date", "Customer Key", "Sales Order Document Line Item Number", "Product Key", "Billing Date", "Ship Date", "Request Goods Receipt Date", "Confirm Goods Receipt Date", "Sales Order Document Type Code", "Sales Order Document Line Item Status", "Local Currency", "Net Order Value", "Net Order Quantity"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Other Columns", each [Order Date] >= #date(2021, 1, 1) and [Order Date] <= #date(2022, 2, 19)),
+				    #"Kept First Rows" = Table.FirstN(#"Filtered Rows",10000)
+				in
+				    #"Kept First Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
