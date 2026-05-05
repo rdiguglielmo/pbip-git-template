@@ -1,0 +1,83 @@
+/// This table dynamically lists model objects (tables, columns, measures, relationships) and their metadata using INFO.VIEW functions.
+table 'Model Documentation'
+	lineageTag: 719aaba1-7662-4f86-89ae-ace098c0e087
+
+	column Type
+		lineageTag: 53dc69c6-9d67-4663-8de6-a677b0bd77b1
+		isNameInferred
+		sourceColumn: [Type]
+
+	column Name
+		lineageTag: a0cdb474-028c-4dd6-a977-c8fa4cd4569f
+		isNameInferred
+		sourceColumn: [Name]
+
+	column Description
+		lineageTag: a5af8f3c-156b-4905-bb9c-2ed3fcd9530f
+		isNameInferred
+		sourceColumn: [Description]
+
+	column Location
+		lineageTag: 7f7dda65-0322-4b76-9f05-8ecb12de240a
+		isNameInferred
+		sourceColumn: [Location]
+
+	column Expression
+		lineageTag: 53f5de4b-6bee-442e-a11b-1f76e4c34bcc
+		isNameInferred
+		sourceColumn: [Expression]
+
+	partition 'Model Documentation' = calculated
+		mode: import
+		source = ```
+				
+				VAR _columns =
+				    SELECTCOLUMNS(
+				        FILTER(
+				            INFO.VIEW.COLUMNS(),
+				            [Table] <> "Model Documentation" && NOT([IsHidden])
+				        ),
+				        "Type", "Column",
+				        "Name", [Name],
+				        "Description", [Description],
+				        "Location", [Table],
+				        "Expression", [Expression]
+				    )
+				VAR _measures =
+				    SELECTCOLUMNS(
+				        FILTER(
+				            INFO.VIEW.MEASURES(),
+				            [Table] <> "Model Documentation" && NOT([IsHidden])
+				        ),
+				        "Type", "Measure",
+				        "Name", [Name],
+				        "Description", [Description],
+				        "Location", [Table],
+				        "Expression", [Expression]
+				    )
+				VAR _tables =
+				    SELECTCOLUMNS(
+				        FILTER(
+				            INFO.VIEW.TABLES(),
+				            [Name] <> "Model Documentation" && [Name] <> "Calculations" && NOT([IsHidden])
+				        ),
+				        "Type", "Table",
+				        "Name", [Name],
+				        "Description", [Description],
+				        "Location", BLANK(),
+				        "Expression", [Expression]
+				    )
+				VAR _relationships =
+				    SELECTCOLUMNS(
+				        INFO.VIEW.RELATIONSHIPS(),
+				        "Type", "Relationship",
+				        "Name", [Relationship],
+				        "Description", BLANK(),
+				        "Location", BLANK(),
+				        "Expression", [Relationship]
+				    )
+				RETURN
+				    UNION(_columns, _measures, _tables, _relationships)
+				
+				```
+
