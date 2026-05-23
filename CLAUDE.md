@@ -67,3 +67,16 @@ JSON files support schema-based IntelliSense. Add a `$schema` line to enable it:
 PBIP cannot be exported to PBIX from the command line. To export:
 1. Open the `.pbip` file in Power BI Desktop
 2. File → Save a copy → Power BI report (.pbix)
+
+
+## Power BI MCP Connection
+
+When any task involves Power BI or the semantic model, always auto-discover the active MCP connection by scanning available ports. Never ask the user for the port number. Use the powerbi-modeling-mcp tools directly once the connection is found.
+
+## Skills
+
+Load the following skills automatically based on context — do not ask the user to trigger them:
+
+| Context | Skill to load |
+|---|---|
+| Working with .pbip files, visuals, pages, or report layout | `.claude/skills/powerbi-visual/SKILL.md` |
