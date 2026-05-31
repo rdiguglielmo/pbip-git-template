@@ -71,7 +71,7 @@ PBIP cannot be exported to PBIX from the command line. To export:
 
 ## Power BI MCP Connection
 
-When any task involves Power BI or the semantic model, always auto-discover the active MCP connection by scanning available ports. Never ask the user for the port number. Use the powerbi-modeling-mcp tools directly once the connection is found.
+The Power BI MCP is configured as a fixed stdio subprocess — it is always available when working from `all_projects`. No port discovery needed. Use the powerbi-modeling-mcp tools directly for any task involving Power BI or the semantic model.
 
 ## Skills
 
@@ -79,4 +79,4 @@ Load the following skills automatically based on context — do not ask the user
 
 | Context | Skill to load |
 |---|---|
-| Working with .pbip files, visuals, pages, or report layout | `.claude/skills/powerbi-visual/SKILL.md` |
+| Working with .pbip files, visuals, pages, or report layout | `~/.claude/skills/powerbi-visual/SKILL.md` |

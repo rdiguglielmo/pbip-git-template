@@ -1,0 +1,89 @@
+table _Measures
+	lineageTag: a1f3c2d4-e5b6-7890-abcd-ef1234567890
+
+	measure '€ Net Invoice Value' =
+
+			VAR _Result =
+			    CALCULATE(
+			        SUM( 'Factview Invoices'[Net Invoice Value] )
+			    )
+
+			RETURN
+			    _Result
+		formatString: €#,0.00
+		displayFolder: 00 Base
+		lineageTag: b2c3d4e5-f6a7-8901-bcde-f12345678901
+
+	measure '# Invoice Lines' =
+
+			VAR _Result =
+			    COUNTROWS( 'Factview Invoices' )
+
+			RETURN
+			    _Result
+		formatString: #,0
+		displayFolder: 00 Base
+		lineageTag: c3d4e5f6-a7b8-9012-cdef-123456789012
+
+	measure '€ Net Invoice Value LY' =
+
+			VAR _Result =
+			    CALCULATE(
+			        [€ Net Invoice Value],
+			        SAMEPERIODLASTYEAR( 'Dim Date'[Date] )
+			    )
+
+			RETURN
+			    _Result
+		formatString: €#,0.00
+		displayFolder: 02 Time Intelligence
+		lineageTag: d4e5f6a7-b8c9-0123-defa-234567890123
+
+	measure '% YoY Growth' =
+
+			VAR _Current =  [€ Net Invoice Value]
+			VAR _LastYear = [€ Net Invoice Value LY]
+
+			VAR _Result =
+			    DIVIDE(
+			        _Current - _LastYear,
+			        _LastYear
+			    )
+
+			RETURN
+			    _Result
+		formatString: 0.00%
+		displayFolder: 03 Ratios & KPIs
+		lineageTag: e5f6a7b8-c9d0-1234-efab-345678901234
+
+	measure '% OTD Rate' =
+
+			VAR _TotalLines = [# Invoice Lines]
+
+			VAR _OnTimeLines =
+			    CALCULATE(
+			        COUNTROWS( 'Factview Invoices' ),
+			        'Factview Invoices'[OTD Indicator] = TRUE()
+			    )
+			VAR _Result =
+			    DIVIDE(
+			        _OnTimeLines,
+			        _TotalLines
+			    )
+
+			RETURN
+			    _Result
+		formatString: 0.00%
+		displayFolder: 03 Ratios & KPIs
+		lineageTag: f6a7b8c9-d0e1-2345-fabc-456789012345
+
+	column Value
+		lineageTag: 606c1967-e3af-4f91-b6fa-0ece25725070
+		isNameInferred
+		sourceColumn: [Value]
+
+	partition _Measures = calculated
+		mode: import
+		source = {0}
+
+	annotation PBI_ResultType = Table
