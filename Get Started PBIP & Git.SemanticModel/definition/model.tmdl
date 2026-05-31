@@ -25,6 +25,7 @@ ref table 'Factview Invoices'
 ref table 'Factview Orders'
 ref table 'Dim Date'
 ref table 'Model Documentation'
+ref table _Measures
 
 ref cultureInfo en-US
 
